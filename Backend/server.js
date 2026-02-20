@@ -1,0 +1,10 @@
+require("dotenv").config()
+const app = require("./src/app")
+const connectToDB = require("./src/DB/db")
+const httpsServer = require("http").createServer(app)
+const initsocketio = require("./src/Socket/chat.socket")
+connectToDB()
+initsocketio(httpsServer)
+httpsServer.listen(3000,()=>{
+    console.log("Server Start at port no 3000")
+})
