@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
 import ChatMobileBar from '../components/chat/ChatMobileBar.jsx';
 import ChatSidebar from '../components/chat/ChatSidebar.jsx';
@@ -28,8 +29,14 @@ const Home = () => {
   const isSending = useSelector(state => state.chat.isSending);
   const [ sidebarOpen, setSidebarOpen ] = React.useState(false);
   const [ socket, setSocket ] = useState(null);
+  const [ currentUser, setCurrentUser ] = useState(null);
+  const navigate = useNavigate();
 
   const activeChat = chats.find(c => c.id === activeChatId) || null;
+
+  // keep latest activeChatId in a ref so socket handler can access up-to-date value
+  const activeChatIdRef = React.useRef(activeChatId);
+  useEffect(() => { activeChatIdRef.current = activeChatId; }, [activeChatId]);
 
   const [ messages, setMessages ] = useState([
     // {
@@ -48,7 +55,7 @@ const Home = () => {
     if (title) title = title.trim();
     if (!title) return
 
-    const response = await axios.post("https://nexus-ai-5mvw.onrender.com/api/chat", {
+    const response = await axios.post("https://nexus-ai-5mvw.onrender.com/Api/Chat/", {
       title
     }, {
       withCredentials: true
@@ -61,7 +68,19 @@ const Home = () => {
   // Ensure at least one chat exists initially
   useEffect(() => {
 
-    axios.get("https://nexus-ai-5mvw.onrender.com/api/chat", { withCredentials: true })
+    // check auth and fetch chats
+    axios.get("https://nexus-ai-5mvw.onrender.com/Api/Auth/check", { withCredentials: true })
+      .then(res => {
+        if (res.data && res.data.data) {
+          setCurrentUser(res.data.data);
+        } else {
+          navigate('/login');
+        }
+      }).catch(() => {
+        navigate('/login');
+      });
+
+    axios.get("https://nexus-ai-5mvw.onrender.com/Api/Chat", { withCredentials: true })
       .then(response => {
         dispatch(setChats(response.data.chats.reverse()));
       })
@@ -70,13 +89,20 @@ const Home = () => {
       withCredentials: true,
     })
 
-    tempSocket.on("ai-response", (messagePayload) => {
+    tempSocket.on("AI-MESSAGE", (messagePayload) => {
       console.log("Received AI response:", messagePayload);
 
-      setMessages((prevMessages) => [ ...prevMessages, {
-        type: 'ai',
-        content: messagePayload.content
-      } ]);
+      // backend emits a plain string (response text), but sometimes payload may be an object
+      const text = typeof messagePayload === 'string'
+        ? messagePayload
+        : (messagePayload && (messagePayload.content || messagePayload.text)) || '';
+
+      if (text && String(text).trim() !== '') {
+        setMessages((prevMessages) => [ ...prevMessages, {
+          type: 'ai',
+          content: String(text)
+        } ]);
+      }
 
       dispatch(sendingFinished());
     });
@@ -84,6 +110,16 @@ const Home = () => {
     setSocket(tempSocket);
 
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('https://nexus-ai-5mvw.onrender.com/Api/Auth/logout', {}, { withCredentials: true });
+    } catch (e) {
+      // ignore
+    }
+    setCurrentUser(null);
+    navigate('/login');
+  }
 
   const sendMessage = async () => {
 
@@ -102,7 +138,7 @@ const Home = () => {
     setMessages(newMessages);
     dispatch(setInput(''));
 
-    socket.emit("ai-message", {
+    socket.emit("message", {
       chat: activeChatId,
       content: trimmed
     })
@@ -119,7 +155,7 @@ const Home = () => {
 
   const getMessages = async (chatId) => {
 
-   const response = await  axios.get(`https://nexus-ai-5mvw.onrender.com/api/chat/messages/${chatId}`, { withCredentials: true })
+   const response = await  axios.get(`https://nexus-ai-5mvw.onrender.com/Api/Chat/messages/${chatId}`, { withCredentials: true })
 
    console.log("Fetched messages:", response.data.messages);
 
@@ -147,13 +183,29 @@ return (
       }}
       onNewChat={handleNewChat}
       open={sidebarOpen}
+      user={currentUser}
+      onLogout={handleLogout}
     />
     <main className="chat-main" role="main">
       {messages.length === 0 && (
         <div className="chat-welcome" aria-hidden="true">
           <div className="chip">Early Preview</div>
-          <h1>ChatGPT Clone</h1>
+          <h1 style={{fontSize:'3rem', marginBottom:8}}>Nexus AI</h1>
           <p>Ask anything. Paste text, brainstorm ideas, or get quick explanations. Your chats stay in the sidebar so you can pick up where you left off.</p>
+          <div className="hero-cards" aria-hidden="true">
+            <div className="hero-card">
+              <h3>Code a website</h3>
+              <p>Build modern React components with Tailwind CSS integration.</p>
+            </div>
+            <div className="hero-card">
+              <h3>Write a poem</h3>
+              <p>Create evocative verses about cosmic mysteries and space exploration.</p>
+            </div>
+            <div className="hero-card">
+              <h3>Explain Physics</h3>
+              <p>Break down complex quantum theories into simple, digestible concepts.</p>
+            </div>
+          </div>
         </div>
       )}
       <ChatMessages messages={messages} isSending={isSending} />
