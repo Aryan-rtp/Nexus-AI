@@ -35,7 +35,7 @@ app.use("/Api/Auth", routes);
 app.use("/Api/Chat", chat);
 
 /* -------------------- SPA Fallback -------------------- */
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
