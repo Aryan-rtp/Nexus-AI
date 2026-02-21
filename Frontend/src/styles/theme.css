@@ -1,48 +1,36 @@
+/* CSS Variable Theme Tokens (light + dark) */
+/* Keep ONLY variables here; structural styles go elsewhere */
+
 :root {
-  /* === Background System (Soft Dark, Not Pure Black) === */
-  --color-bg: #0f0f0f;            /* Main background */
-  --color-bg-alt: #141414;        /* Slight section contrast */
-  --color-surface: #1a1a1a;       /* Cards / panels */
-  --color-surface-hover: #222222; /* Hover state */
+  /* Palette */
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-border: #d0d7de;
+  --color-text: #111827;
+  --color-text-muted: #5f6b7a;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-danger: #dc2626;
+  --color-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.4);
 
-  /* === Borders (Soft, Not Harsh White) === */
-  --color-border: #2a2a2a;
+  /* Elevation */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
 
-  /* === Typography === */
-  --color-text: #e5e5e5;          /* Primary text */
-  --color-text-muted: #9ca3af;    /* Secondary text */
-
-  /* === Primary Buttons (White CTA like screenshot) === */
-  --color-primary: #414141;
-  --color-primary-hover: #717070;
-  --color-primary-text: #000000;
-
-  /* === Feedback === */
-  --color-danger: #f87171;
-
-  /* === Focus === */
-  --color-focus-ring: 0 0 0 3px rgba(255,255,255,0.15);
-
-  /* === Elevation (Very Subtle) === */
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.4);
-
-  /* === Typography === */
-  --font-sans: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  /* Typography */
+  --font-sans: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
-
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
-  --font-weight-bold: 700;
 
-  /* === Layout === */
-  --radius-sm: 8px;
-  --radius-md: 14px;
+  /* Sizing & Layout */
+  --radius-sm: 4px;
+  --radius-md: 8px;
   --radius-full: 999px;
-
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -50,32 +38,23 @@
   --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
-
-  --transition-fast: 150ms cubic-bezier(.4,0,.2,1);
+  --transition-fast: 120ms cubic-bezier(.4,0,.2,1);
 }
 
-/* Optional Light Mode (If Needed) */
-@media (prefers-color-scheme: light) {
+/* Dark Theme (system preference) */
+@media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #ffffff;
-    --color-bg-alt: #f5f5f5;
-    --color-surface: #ffffff;
-    --color-surface-hover: #f0f0f0;
-
-    --color-border: #e5e7eb;
-
-    --color-text: #111827;
-    --color-text-muted: #6b7280;
-
-    --color-primary: #000000;
-    --color-primary-hover: #1a1a1a;
-    --color-primary-text: #ffffff;
-
-    --color-danger: #dc2626;
-
-    --color-focus-ring: 0 0 0 3px rgba(0,0,0,0.15);
-
-    --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-sm: 0 4px 12px rgba(0,0,0,0.08);
+    --color-bg: #0f172a;
+    --color-bg-alt: #1e293b;
+    --color-surface: #1e293b;
+    --color-border: #334155;
+    --color-text: #f1f5f9;
+    --color-text-muted: #94a3b8;
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-danger: #f87171;
+    --color-focus-ring: 0 0 0 3px rgba(59,130,246,0.45);
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.6);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.7), 0 1px 2px rgba(0,0,0,0.5);
   }
 }

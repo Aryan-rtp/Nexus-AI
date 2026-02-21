@@ -34,30 +34,6 @@
     }
 }
 
-/* Mobile-specific layout tweaks */
-@media (max-width: 959px) {
-    .chat-layout.minimal .chat-sidebar {
-        position: fixed;
-        left: -300px;
-        top: 0;
-        bottom: 0;
-        width: 280px;
-        transform: translateX(0);
-        transition: transform .18s ease;
-        z-index: 60;
-        padding-top: 56px;
-    }
-    .chat-layout.minimal .chat-sidebar.open {
-        transform: translateX(300px);
-    }
-    .chat-main {
-        padding-top: 56px;
-    }
-    .chat-welcome h1 { font-size: 1.9rem; }
-    .hero-cards { flex-direction: column; gap: 12px; }
-    .hero-card { width: 100%; }
-}
-
 /* Minimal monochrome variant (applied when parent has .minimal) */
 .chat-layout.minimal {
     --color-bg: #000;
@@ -177,28 +153,6 @@
     max-width: 420px;
     line-height: 1.4;
 }
-
-/* Hero cards (center area) */
-.hero-cards {
-    display: flex;
-    gap: 18px;
-    margin-top: 28px;
-    pointer-events: auto;
-}
-.hero-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.04);
-    padding: 22px;
-    border-radius: 12px;
-    width: 220px;
-    min-height: 110px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
-}
-.hero-card h3 { margin:0; font-size:1rem; }
-.hero-card p { margin:0; font-size:0.85rem; color: #9a9a9a; }
 
 .chat-welcome .chip {
     background: #111;

@@ -18,9 +18,9 @@ const Register = () => {
         setSubmitting(true);
         console.log(form);
 
-        axios.post("https://nexus-ai-5mvw.onrender.com/Api/Auth/register", {
+        axios.post("https://nexus-ai-5mvw.onrender.com/api/auth/register", {
             email: form.email,
-            fullname: {
+            fullName: {
                 firstName: form.firstname,
                 lastName: form.lastname
             },
@@ -29,12 +29,10 @@ const Register = () => {
             withCredentials: true
         }).then((res) => {
             console.log(res);
-            // registration returns user data/token; redirect to login page
-            navigate("/login");
+            navigate("/");
         }).catch((err) => {
             console.error(err);
-            const msg = err.response?.data?.message || 'Registration failed';
-            alert(msg);
+            alert('Registration failed (placeholder)');
         })
 
         try {
@@ -62,11 +60,11 @@ const Register = () => {
                     <div className="grid-2">
                         <div className="field-group">
                             <label htmlFor="firstname">First name</label>
-                            <input id="firstname" name="firstname" placeholder="Aryan" value={form.firstname} onChange={handleChange} required />
+                            <input id="firstname" name="firstname" placeholder="Jane" value={form.firstname} onChange={handleChange} required />
                         </div>
                         <div className="field-group">
                             <label htmlFor="lastname">Last name</label>
-                            <input id="lastname" name="lastname" placeholder="Pandey" value={form.lastname} onChange={handleChange} required />
+                            <input id="lastname" name="lastname" placeholder="Doe" value={form.lastname} onChange={handleChange} required />
                         </div>
                     </div>
                     <div className="field-group">
