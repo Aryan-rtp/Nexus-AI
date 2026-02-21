@@ -55,7 +55,7 @@ const Home = () => {
     if (title) title = title.trim();
     if (!title) return
 
-    const response = await axios.post("http://localhost:3000/Api/Chat/", {
+    const response = await axios.post("https://nexus-ai-5mvw.onrender.com/Api/Chat/", {
       title
     }, {
       withCredentials: true
@@ -69,7 +69,7 @@ const Home = () => {
   useEffect(() => {
 
     // check auth and fetch chats
-    axios.get("http://localhost:3000/Api/Auth/check", { withCredentials: true })
+    axios.get("https://nexus-ai-5mvw.onrender.com/Api/Auth/check", { withCredentials: true })
       .then(res => {
         if (res.data && res.data.data) {
           setCurrentUser(res.data.data);
@@ -80,12 +80,12 @@ const Home = () => {
         navigate('/login');
       });
 
-    axios.get("http://localhost:3000/Api/Chat", { withCredentials: true })
+    axios.get("https://nexus-ai-5mvw.onrender.com/Api/Chat", { withCredentials: true })
       .then(response => {
         dispatch(setChats(response.data.chats.reverse()));
       })
 
-    const tempSocket = io("http://localhost:3000", {
+    const tempSocket = io("https://nexus-ai-5mvw.onrender.com", {
       withCredentials: true,
     })
 
@@ -113,7 +113,7 @@ const Home = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3000/Api/Auth/logout', {}, { withCredentials: true });
+      await axios.post('https://nexus-ai-5mvw.onrender.com/Api/Auth/logout', {}, { withCredentials: true });
     } catch (e) {
       // ignore
     }
@@ -155,7 +155,7 @@ const Home = () => {
 
   const getMessages = async (chatId) => {
 
-   const response = await  axios.get(`http://localhost:3000/Api/Chat/messages/${chatId}`, { withCredentials: true })
+   const response = await  axios.get(`https://nexus-ai-5mvw.onrender.com/Api/Chat/messages/${chatId}`, { withCredentials: true })
 
    console.log("Fetched messages:", response.data.messages);
 
