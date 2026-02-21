@@ -18,7 +18,7 @@ const Register = () => {
         setSubmitting(true);
         console.log(form);
 
-        axios.post("http://localhost:3000/Api/Auth/register", {
+        axios.post("https://nexus-ai-5mvw.onrender.com/Api/Auth/register", {
             email: form.email,
             fullname: {
                 firstName: form.firstname,

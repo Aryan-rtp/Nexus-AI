@@ -21,7 +21,7 @@ const Login = () => {
 
         console.log(form);
 
-        axios.post("http://localhost:3000/Api/Auth/login", {
+        axios.post("https://nexus-ai-5mvw.onrender.com/Api/Auth/login", {
             email: form.email,
             password: form.password
         },
