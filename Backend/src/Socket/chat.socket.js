@@ -9,7 +9,7 @@ async function initsocketio(httpServer) {
 
   const io = new Server(httpServer, {
     cors: {
-      origin: "https://nexus-ai-two-peach.vercel.app",
+      origin: "http://localhost:5173",
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true
     }
