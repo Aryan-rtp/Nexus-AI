@@ -11,7 +11,7 @@ app.use(cookie())
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:'https://nexus-ai-two-peach.vercel.app/',
     credentials:true
 }))
 
